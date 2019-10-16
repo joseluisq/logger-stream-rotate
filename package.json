@@ -1,0 +1,10 @@
+{
+  "name": "logger-stream-rotate",
+  "version": "0.0.0",
+  "main": "index.js",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "dev": "node example.js"
+  }
+}
