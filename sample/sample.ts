@@ -1,6 +1,6 @@
 import { Logger } from "../src"
 
-const LOG_DIR_PATH = process.env["LOG_DIR_PATH"] || "./logs"
+const LOG_DIR_PATH = process.env["LOG_DIR_PATH"] || "./"
 
 // Usage
 const logger = Logger(LOG_DIR_PATH + "/app-%YYYY-%MM-%DD.log", " | ")

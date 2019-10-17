@@ -1,9 +1,10 @@
 {
     "name": "logger-stream-rotate",
     "version": "0.0.0",
-    "description": "String date and time utilities",
+    "description": "Write log files and rotate them using gzip",
     "repository": "joseluisq/logger-stream-rotate",
     "license": "(MIT OR Apache-2.0)",
+    "main": "index.js",
     "author": {
         "name": "Jose Quintana",
         "url": "https://git.io/joseluisq"
