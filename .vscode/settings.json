@@ -1,0 +1,24 @@
+{
+    "editor.tabSize": 4,
+    "editor.rulers": [
+        120
+    ],
+    "editor.formatOnSave": true,
+    "editor.insertSpaces": true,
+    "editor.detectIndentation": true,
+    "files.trimTrailingWhitespace": true,
+    "files.insertFinalNewline": true,
+    "files.exclude": {
+        "**/.git": true,
+        "**/.DS_Store": true,
+        "node_modules": true,
+        "test-lib": true,
+        "lib": true,
+        "coverage": true,
+        "npm": true
+    },
+    "typescript.format.enable": false,
+    "tslint.enable": true,
+    "tslint.autoFixOnSave": true,
+    "typescript.tsdk": "node_modules/typescript/lib"
+}

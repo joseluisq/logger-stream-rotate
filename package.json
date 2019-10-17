@@ -1,10 +1,44 @@
 {
-  "name": "logger-stream-rotate",
-  "version": "0.0.0",
-  "main": "index.js",
-  "private": true,
-  "license": "MIT",
-  "scripts": {
-    "dev": "node example.js"
-  }
+    "name": "logger-stream-rotate",
+    "version": "0.0.0",
+    "description": "String date and time utilities",
+    "repository": "joseluisq/logger-stream-rotate",
+    "license": "(MIT OR Apache-2.0)",
+    "author": {
+        "name": "Jose Quintana",
+        "url": "https://git.io/joseluisq"
+    },
+    "files": [
+        "index.js",
+        "/*.js",
+        "/*.d.ts",
+        "README.md",
+        "LICENSE.md"
+    ],
+    "keywords": [
+        "logging",
+        "logger",
+        "stream",
+        "rotate"
+    ],
+    "engines": {
+        "node": ">=8.x"
+    },
+    "scripts": {
+        "dev": "ts-node sample/sample.ts",
+        "version": "npm run build",
+        "build": "npm run test && npm run clean && npm run compile",
+        "compile": "tsc --module commonjs --target es6",
+        "watch": "tsc --watch",
+        "clean": "rm -rf dist",
+        "test": "echo \"No tests available yet\"",
+        "lint": "tslint --format stylish --project tsconfig.json"
+    },
+    "devDependencies": {
+        "@types/node": "^8",
+        "ts-node": "^8.4.1",
+        "tslint": "^5.20.0",
+        "tslint-config-standard-plus": "^2.2.0",
+        "typescript": "^3.6.4"
+    }
 }

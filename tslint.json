@@ -1,0 +1,24 @@
+{
+    "extends": [
+        "tslint-config-standard-plus"
+    ],
+    "rules": {
+        "quotemark": [
+            true,
+            "double",
+            "avoid-escape"
+        ],
+        "indent": [
+            true,
+            "spaces",
+            4
+        ],
+        "ter-indent": [
+            true,
+            4,
+            {
+                "SwitchCase": 1
+            }
+        ]
+    }
+}

@@ -1,18 +1,22 @@
-const fs = require("fs")
-const zlib = require("zlib")
+import * as fs from "fs"
+import * as zlib from "zlib"
 
-const DATE_FORMATS = [
-    ["%YYYY", /\%YYYY/g],
-    ["%MM", /\%MM/g],
-    ["%DD", /\%DD/g],
-    ["%hh", /\%hh/g],
-    ["%mm", /\%mm/g],
-    ["%ss", /\%ss/g],
+const DATE_FORMATS: [string, RegExp][] = [
+    [ "%YYYY", /\%YYYY/g ],
+    [ "%MM", /\%MM/g ],
+    [ "%DD", /\%DD/g ],
+    [ "%hh", /\%hh/g ],
+    [ "%mm", /\%mm/g ],
+    [ "%ss", /\%ss/g ]
 ]
 
 const STREAM_WRITABLE_OPTIONS = { flags: "a", encoding: "utf8" }
 
-function strfdatetime(str, date) {
+function getNow () {
+    return new Date()
+}
+
+function strfdatetime (str: string, date?: Date) {
     if (!str) {
         return str
     }
@@ -21,13 +25,13 @@ function strfdatetime(str, date) {
         date = getNow()
     }
 
-    const dateFormatValues = [
-        [DATE_FORMATS[0][0], DATE_FORMATS[0][1], date.getFullYear()],
-        [DATE_FORMATS[1][0], DATE_FORMATS[1][1], ("0" + date.getMonth()).slice(-2)],
-        [DATE_FORMATS[2][0], DATE_FORMATS[2][1], ("0" + date.getDate()).slice(-2)],
-        [DATE_FORMATS[3][0], DATE_FORMATS[3][1], ("0" + date.getHours()).slice(-2)],
-        [DATE_FORMATS[4][0], DATE_FORMATS[4][1], ("0" + date.getMinutes()).slice(-2)],
-        [DATE_FORMATS[5][0], DATE_FORMATS[5][1], ("0" + date.getSeconds()).slice(-2)],
+    const dateFormatValues: [string, RegExp, string][] = [
+        [ DATE_FORMATS[0][0], DATE_FORMATS[0][1], date.getFullYear().toString() ],
+        [ DATE_FORMATS[1][0], DATE_FORMATS[1][1], ("0" + date.getMonth()).slice(-2) ],
+        [ DATE_FORMATS[2][0], DATE_FORMATS[2][1], ("0" + date.getDate()).slice(-2) ],
+        [ DATE_FORMATS[3][0], DATE_FORMATS[3][1], ("0" + date.getHours()).slice(-2) ],
+        [ DATE_FORMATS[4][0], DATE_FORMATS[4][1], ("0" + date.getMinutes()).slice(-2) ],
+        [ DATE_FORMATS[5][0], DATE_FORMATS[5][1], ("0" + date.getSeconds()).slice(-2) ]
     ]
 
     for (let i = 0; i < dateFormatValues.length; i++) {
@@ -41,11 +45,11 @@ function strfdatetime(str, date) {
     return str
 }
 
-function createWritableStream(filePath) {
+function createWritableStream (filePath: string) {
     return fs.createWriteStream(filePath, STREAM_WRITABLE_OPTIONS)
 }
 
-function getCurrentDate() {
+function getCurrentDate () {
     const now = getNow()
 
     return now.getFullYear() + "-" +
@@ -54,13 +58,12 @@ function getCurrentDate() {
 }
 
 /**
- * Logger stream function
+ * Logger stream function that writes log files and rotate them using gzip.
  *
- * @param {String} logFilePath Log file string path which support MySQL format.
- * E.g. my-file-%YYYY-%MM-%DD-%hh:%mm:%ss.log
- * @param {*} separator String separator character for parts of one log entry.
+ * @param logFilePath Log file string path which support MySQL format. E.g. my-file-%YYYY-%MM-%DD-%hh:%mm:%ss.log
+ * @param separator String separator character for parts of one log entry.
  */
-function Logger(logFilePath, separator = "|") {
+export function Logger (logFilePath: string, separator = "|") {
     let currentLogFilePath = strfdatetime(logFilePath)
     let stream = createWritableStream(currentLogFilePath)
     let lastDate = getCurrentDate()
@@ -68,10 +71,10 @@ function Logger(logFilePath, separator = "|") {
     /**
      * Writes buffer strings or array of strings into current log stream
      *
-     * @param {String|Array} data Databa to write into current log file
-     * @param {Function} cb Callback function when current write was finished
+     * @param data Writes buffer strings or array of strings into current log stream
+     * @param cb Callback function when current write was finished
      */
-    function write(data, cb) {
+    function write (data: string | string[], cb?: Function) {
         let str = ""
 
         if (typeof data === "string") {
@@ -102,7 +105,7 @@ function Logger(logFilePath, separator = "|") {
             input.on("end", () => {
                 stream.end()
 
-                fs.unlink(currentLogFilePath, function () { })
+                fs.unlink(currentLogFilePath, () => void 0)
                 input.close()
 
                 currentLogFilePath = strfdatetime(logFilePath)
@@ -121,9 +124,10 @@ function Logger(logFilePath, separator = "|") {
                 lastDate = currentDate
 
                 if (!isWritted) {
-                    stream.once("drain", cb)
+                    // @ts-ignore
+                    if (cb) stream.once("drain", cb)
                 } else {
-                    process.nextTick(cb)
+                    if (cb) process.nextTick(cb)
                 }
             })
 
@@ -142,9 +146,10 @@ function Logger(logFilePath, separator = "|") {
             lastDate = currentDate
 
             if (!isWritted) {
-                stream.once("drain", cb)
+                // @ts-ignore
+                if (cb) stream.once("drain", cb)
             } else {
-                process.nextTick(cb)
+                if (cb) process.nextTick(cb)
             }
         }
     }
@@ -152,8 +157,4 @@ function Logger(logFilePath, separator = "|") {
     return {
         write
     }
-}
-
-module.exports = {
-    Logger
 }

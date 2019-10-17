@@ -1,2 +1,13 @@
 node_modules
+coverage
+**/.DS_Store
+**/*.env
+**/*.log
+**/*.tar
+**/*.gz
 *log*
+.cache
+/*.js
+/*.map
+/*.d.ts
+*cache*
