@@ -26,12 +26,12 @@ function strfdatetime (str: string, date?: Date) {
     }
 
     const dateFormatValues: [string, RegExp, string][] = [
-        [ DATE_FORMATS[0][0], DATE_FORMATS[0][1], date.getFullYear().toString() ],
-        [ DATE_FORMATS[1][0], DATE_FORMATS[1][1], ("0" + date.getMonth()).slice(-2) ],
-        [ DATE_FORMATS[2][0], DATE_FORMATS[2][1], ("0" + date.getDate()).slice(-2) ],
-        [ DATE_FORMATS[3][0], DATE_FORMATS[3][1], ("0" + date.getHours()).slice(-2) ],
-        [ DATE_FORMATS[4][0], DATE_FORMATS[4][1], ("0" + date.getMinutes()).slice(-2) ],
-        [ DATE_FORMATS[5][0], DATE_FORMATS[5][1], ("0" + date.getSeconds()).slice(-2) ]
+        [ DATE_FORMATS[0][0], DATE_FORMATS[0][1], date.getUTCFullYear().toString() ],
+        [ DATE_FORMATS[1][0], DATE_FORMATS[1][1], ("0" + date.getUTCMonth()).slice(-2) ],
+        [ DATE_FORMATS[2][0], DATE_FORMATS[2][1], ("0" + date.getUTCDate()).slice(-2) ],
+        [ DATE_FORMATS[3][0], DATE_FORMATS[3][1], ("0" + date.getUTCHours()).slice(-2) ],
+        [ DATE_FORMATS[4][0], DATE_FORMATS[4][1], ("0" + date.getUTCMinutes()).slice(-2) ],
+        [ DATE_FORMATS[5][0], DATE_FORMATS[5][1], ("0" + date.getUTCSeconds()).slice(-2) ]
     ]
 
     for (let i = 0; i < dateFormatValues.length; i++) {
@@ -52,9 +52,9 @@ function createWritableStream (filePath: string) {
 function getCurrentDate () {
     const now = getNow()
 
-    return now.getFullYear() + "-" +
-        ("0" + now.getMonth()).slice(-2) + "-" +
-        ("0" + now.getDate()).slice(-2)
+    return now.getUTCFullYear() + "-" +
+        ("0" + now.getUTCMonth()).slice(-2) + "-" +
+        ("0" + now.getUTCDate()).slice(-2)
 }
 
 /**
@@ -88,9 +88,9 @@ export function Logger (logFilePath: string, separator = "|") {
         const now = getNow()
         const timestamp = Date.now()
 
-        const currentDate = now.getFullYear() + "-" +
-            ("0" + now.getMonth()).slice(-2) + "-" +
-            ("0" + now.getDate()).slice(-2)
+        const currentDate = now.getUTCFullYear() + "-" +
+            ("0" + now.getUTCMonth()).slice(-2) + "-" +
+            ("0" + now.getUTCDate()).slice(-2)
 
         // If dates are different proceed to perform following actions:
         //  1. Compress current log file
@@ -111,12 +111,7 @@ export function Logger (logFilePath: string, separator = "|") {
                 currentLogFilePath = strfdatetime(logFilePath)
                 stream = createWritableStream(currentLogFilePath)
 
-                const datetime = currentDate + " " +
-                    ("0" + now.getHours()).slice(-2) + ":" +
-                    ("0" + now.getMinutes()).slice(-2) + ":" +
-                    ("0" + now.getSeconds()).slice(-2)
-
-                str = datetime + separator + timestamp + separator + str.trim() + "\n"
+                str = now.toISOString() + separator + timestamp + separator + str.trim() + "\n"
 
                 // Note: respect backpressure and avoid memory issues using the 'drain' event
                 const isWritted = stream.write(str)
@@ -133,12 +128,7 @@ export function Logger (logFilePath: string, separator = "|") {
 
             input.pipe(zlib.createGzip()).pipe(output)
         } else {
-            const datetime = currentDate + " " +
-                ("0" + now.getHours()).slice(-2) + ":" +
-                ("0" + now.getMinutes()).slice(-2) + ":" +
-                ("0" + now.getSeconds()).slice(-2)
-
-            str = datetime + separator + timestamp + separator + str.trim() + "\n"
+            str = now.toISOString() + separator + timestamp + separator + str.trim() + "\n"
 
             // Note: respect backpressure and avoid memory issues using the 'drain' event
             const isWritted = stream.write(str)

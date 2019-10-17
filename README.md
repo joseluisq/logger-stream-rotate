@@ -8,6 +8,7 @@
 
 - Output logs to time-rotated log files.
 - Optionally gzip logs once they are no longer current.
+- Dates are expressed in UTC only.
 - Stream pipe functionality coming soon.
 
 ## Install
