@@ -1,6 +1,6 @@
 # logger-stream-rotate
 
-[![Build Status](https://travis-ci.org/joseluisq/logger-stream-rotate.svg?branch=master)](https://travis-ci.org/joseluisq/logger-stream-rotate) [![npm](https://img.shields.io/npm/v/logger-stream-rotate.svg)](https://www.npmjs.com/package/logger-stream-rotate) [![npm](https://img.shields.io/npm/dt/logger-stream-rotate.svg)](https://www.npmjs.com/package/logger-stream-rotate) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![Build Status](https://travis-ci.com/joseluisq/logger-stream-rotate.svg?branch=master)](https://travis-ci.com/joseluisq/logger-stream-rotate) [![npm](https://img.shields.io/npm/v/logger-stream-rotate.svg)](https://www.npmjs.com/package/logger-stream-rotate) [![npm](https://img.shields.io/npm/dt/logger-stream-rotate.svg)](https://www.npmjs.com/package/logger-stream-rotate) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 > Write log files and rotate them using gzip.
 
