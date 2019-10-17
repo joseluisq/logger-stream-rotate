@@ -1,6 +1,6 @@
 {
     "name": "logger-stream-rotate",
-    "version": "0.0.0",
+    "version": "0.0.1-rc1.0",
     "description": "Write log files and rotate them using gzip",
     "repository": "joseluisq/logger-stream-rotate",
     "license": "(MIT OR Apache-2.0)",
