@@ -38,6 +38,9 @@ logger.write(
     ["Log entry part 1", "another log entry part 2", "etc..."],
     () => console.log("callback when current log entry was finished!")
 )
+
+// Log file content: `app-2019-09-17.log`
+// 2019-10-17T07:47:35.096Z | 1571298455096 | Log entry part 1 | another log entry part 2 | etc...
 ```
 
 An example file is located at [sample/sample.ts](./sample/sample.ts)
